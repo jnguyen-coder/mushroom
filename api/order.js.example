@@ -1,0 +1,102 @@
+/**
+ * Asahi Mushroom — Example Serverless Order Handler
+ * =================================================
+ *
+ * This is an EXAMPLE file. It is not used in production.
+ * Deploy this as a serverless function (Vercel, Netlify, AWS Lambda, etc.)
+ * and set VITE_ORDER_ENDPOINT to its URL.
+ *
+ * This example uses Resend for email. Swap with SendGrid or any provider.
+ *
+ * Environment variables needed on the server:
+ *   ADMIN_EMAIL       — Email to receive order notifications
+ *   RESEND_API_KEY    — Your Resend API key
+ *   SENDER_EMAIL      — Verified sender email (e.g. orders@asahimushroom.com)
+ */
+
+// import { Resend } from 'resend'
+// const resend = new Resend(process.env.RESEND_API_KEY)
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' })
+  }
+
+  try {
+    const order = req.body
+    const orderId = `ASH-${Date.now().toString(36).toUpperCase()}`
+
+    // Validate required fields
+    if (!order.customer?.name || !order.customer?.email || !order.items?.length) {
+      return res.status(400).json({ error: 'Missing required order fields' })
+    }
+
+    // Build order summary for email
+    const itemLines = order.items
+      .map(i => `${i.name}: ${i.quantity} lb × $${i.price} = $${i.subtotal.toFixed(2)}`)
+      .join('\n')
+
+    const orderSummary = `
+Order #${orderId}
+Placed: ${order.timestamp}
+
+Customer: ${order.customer.name}
+Email: ${order.customer.email}
+Phone: ${order.customer.phone}
+
+Fulfillment: ${order.customer.fulfillment}
+${order.customer.fulfillment === 'delivery' ? `Address: ${order.customer.address}` : ''}
+${order.customer.pickupNotes ? `Notes: ${order.customer.pickupNotes}` : ''}
+${order.customer.orderNotes ? `Special Instructions: ${order.customer.orderNotes}` : ''}
+
+Items:
+${itemLines}
+
+Total: ${order.totalPounds} lb — $${order.totalCost.toFixed(2)}
+Payment Method: ${order.paymentMethod}
+    `.trim()
+
+    console.log('New order received:\n', orderSummary)
+
+    // ─── Send admin notification email ───
+    // Uncomment and configure when ready:
+    //
+    // await resend.emails.send({
+    //   from: process.env.SENDER_EMAIL,
+    //   to: process.env.ADMIN_EMAIL,
+    //   subject: `New Order #${orderId} — ${order.customer.name}`,
+    //   text: orderSummary,
+    // })
+
+    // ─── Send customer confirmation email ───
+    // Uncomment and configure when ready:
+    //
+    // await resend.emails.send({
+    //   from: process.env.SENDER_EMAIL,
+    //   to: order.customer.email,
+    //   subject: `Your Asahi Mushroom Order #${orderId}`,
+    //   text: `Hi ${order.customer.name},\n\nThank you for your order!\n\n${orderSummary}\n\nWe'll be in touch with your ${order.customer.fulfillment} details shortly.\n\n— Asahi Mushroom`,
+    // })
+
+    // ─── Alternative: SendGrid ───
+    // const sgMail = require('@sendgrid/mail')
+    // sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+    // await sgMail.send({
+    //   to: process.env.ADMIN_EMAIL,
+    //   from: process.env.SENDER_EMAIL,
+    //   subject: `New Order #${orderId}`,
+    //   text: orderSummary,
+    // })
+
+    return res.status(200).json({
+      success: true,
+      orderId,
+      message: 'Order received successfully',
+    })
+  } catch (error) {
+    console.error('Order processing error:', error)
+    return res.status(500).json({
+      error: 'Failed to process order',
+    })
+  }
+}
