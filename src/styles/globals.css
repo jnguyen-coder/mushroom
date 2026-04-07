@@ -22,11 +22,12 @@
 html {
   scroll-behavior: smooth;
   background-color: var(--color-white);
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
-html, body {
+html, body, #root {
   overscroll-behavior: none;
+  overscroll-behavior-y: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
