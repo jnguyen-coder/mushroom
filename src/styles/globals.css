@@ -22,12 +22,11 @@
 html {
   scroll-behavior: smooth;
   background-color: var(--color-white);
-  overscroll-behavior: none;
+  overflow-x: hidden;
 }
 
 html, body {
-  overscroll-behavior-y: none;
-  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -48,6 +47,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
   overflow-x: hidden;
+  position: relative;
+  width: 100%;
   cursor: url('/cursor-mushroom.svg') 12 16, auto;
 }
 
@@ -80,6 +81,12 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 input[type="number"] { -moz-appearance: textfield; }
 
+/* Hero viewport height — dvh accounts for iOS Safari dynamic address bar */
+.min-h-hero {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
 /* Offset anchors for sticky header */
 [id] {
   scroll-margin-top: 80px;
@@ -87,6 +94,17 @@ input[type="number"] { -moz-appearance: textfield; }
 
 .img-placeholder {
   background: radial-gradient(ellipse at center, var(--color-cream) 0%, var(--color-bone) 100%);
+}
+
+/* Eliminate 300ms tap delay on interactive elements */
+button,
+a,
+[role="button"],
+input,
+select,
+textarea,
+label {
+  touch-action: manipulation;
 }
 
 /* Easing tokens */

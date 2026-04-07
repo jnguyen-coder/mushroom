@@ -31,8 +31,6 @@ export default function Hero() {
 
   // Scroll parallax on background
   const bgScrollY = useTransform(scrollYProgress, [0, 1], ['0%', '25%']);
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
-
   // Text fades on scroll
   const textY = useTransform(scrollYProgress, [0, 0.6], ['0%', '-15%']);
   const textOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
@@ -62,14 +60,14 @@ export default function Hero() {
     <section
       ref={heroRef}
       style={{ position: 'relative' }}
-      className="relative min-h-screen overflow-hidden"
+      className="relative min-h-hero overflow-hidden"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
       {/* Parallax background — scroll + mouse */}
       <motion.div
-        className="absolute left-[-20px] right-[-20px] bottom-[-20px]"
-        style={{ y: bgScrollY, scale: bgScale, x: bgMouseX, translateY: bgMouseY, top: '-15%' }}
+        className="absolute inset-0 scale-110"
+        style={{ y: bgScrollY, x: bgMouseX, translateY: bgMouseY }}
       >
         <img
           src="/images/mushrooms/hero-bg.png"
@@ -83,7 +81,7 @@ export default function Hero() {
 
       {/* Text content — upper portion */}
       <motion.div
-        className="relative z-10 flex items-start justify-center min-h-screen pt-[25vh] md:pt-[20vh]"
+        className="relative z-10 flex items-start justify-center min-h-hero pt-[25vh] md:pt-[20vh]"
         style={{ y: textY, opacity: textOpacity }}
       >
         <motion.div

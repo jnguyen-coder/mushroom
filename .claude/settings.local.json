@@ -35,7 +35,8 @@
       "Bash(cp \"C:/Users/kibaa/Desktop/MouseWithoutBorders/mushroom group/mushroom group/4.png\" public/images/mushrooms/hero/shiitake1.png)",
       "Bash(cp \"C:/Users/kibaa/Desktop/MouseWithoutBorders/mushroom group/mushroom group/5.png\" public/images/mushrooms/hero/shiitake2.png)",
       "Bash(cp \"C:/Users/kibaa/Desktop/MouseWithoutBorders/mushroom group/mushroom group/7.png\" public/images/mushrooms/hero/king-oyster1.png)",
-      "Bash(grep -rn '\\\\$15\\\\|\\\\$[0-9]' src/ --include=\"*.tsx\" --include=\"*.ts\")"
+      "Bash(grep -rn '\\\\$15\\\\|\\\\$[0-9]' src/ --include=\"*.tsx\" --include=\"*.ts\")",
+      "Bash(npx vercel:*)"
     ]
   }
 }

@@ -33,6 +33,15 @@ export default function MobileOrderBar() {
     return () => window.removeEventListener('keydown', handleEsc);
   }, [sheetOpen]);
 
+  // Lock body scroll when sheet is open
+  useEffect(() => {
+    if (sheetOpen) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => { document.body.style.overflow = prev; };
+    }
+  }, [sheetOpen]);
+
   const isVisible = itemCount > 0 && checkoutStep !== 'confirmation';
 
   const scrollToShop = () => {

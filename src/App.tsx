@@ -9,13 +9,16 @@ import About from './components/sections/About'
 import FAQ from './components/sections/FAQ'
 import FinalCTA from './components/sections/FinalCTA'
 import ClickBurst from './components/ui/ClickBurst'
+import { useOrder } from './hooks/useOrder'
 
 export default function App() {
+  const { isEmpty } = useOrder()
+
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen w-full overflow-x-hidden bg-white">
       <a href="#shop" className="skip-link">Skip to shop</a>
       <Header />
-      <main>
+      <main className={!isEmpty ? 'pb-24 lg:pb-0' : ''}>
         <Hero />
         <ShopSection />
         <HowItWorks />

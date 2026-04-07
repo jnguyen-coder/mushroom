@@ -40,20 +40,19 @@ export default function Header() {
   // Lock body scroll + Escape key when mobile menu is open
   useEffect(() => {
     if (menuOpen) {
+      const prev = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
       const handleEsc = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
           setMenuOpen(false);
-          menuTriggerRef.current?.focus(); // Return focus to hamburger
+          menuTriggerRef.current?.focus();
         }
       };
       window.addEventListener('keydown', handleEsc);
       return () => {
-        document.body.style.overflow = '';
+        document.body.style.overflow = prev;
         window.removeEventListener('keydown', handleEsc);
       };
-    } else {
-      document.body.style.overflow = '';
     }
   }, [menuOpen]);
 
@@ -160,9 +159,12 @@ export default function Header() {
             transition={{ duration: 0.25 }}
             className="fixed inset-0 z-50 bg-white flex flex-col lg:hidden"
           >
-            {/* Top row: logo + close */}
+            {/* Top row: spacer + logo (centered) + close */}
             <div className="max-w-7xl w-full mx-auto px-5 py-3 flex items-center justify-between">
-              {Wordmark}
+              <div className="w-6" />
+              <div className="flex-1 flex justify-center">
+                {Wordmark}
+              </div>
               <button
                 type="button"
                 className="relative w-6 h-5 flex flex-col justify-between"
