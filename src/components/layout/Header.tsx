@@ -89,8 +89,13 @@ export default function Header() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-5 py-3 flex items-center justify-between">
-          {/* Logo / Wordmark */}
-          {Wordmark}
+          {/* Mobile spacer to center the wordmark (matches hamburger width) */}
+          <div className="w-6 lg:hidden" />
+
+          {/* Logo / Wordmark — centered on mobile via flex */}
+          <div className="lg:flex-none flex-1 flex justify-center lg:justify-start">
+            {Wordmark}
+          </div>
 
           {/* Desktop nav */}
           <nav className="hidden lg:flex items-center gap-8">

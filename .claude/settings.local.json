@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create:*)",
+      "Bash(npx --yes create-vite@latest asahi-temp --template react)",
+      "Bash(cp -r asahi-temp/* .)",
+      "Bash(cp asahi-temp/.gitignore .)",
+      "Bash(rm -rf asahi-temp)",
+      "Bash(npm install:*)",
+      "Bash(mkdir -p public/images/mushrooms)",
+      "Bash(cp \"C:/Users/kibaa/Desktop/mushroom/815e5edc951d3e308a5e283a28869a8a.jpg\" public/images/mushrooms/product-pearl-oyster.jpg)",
+      "Bash(cp \"C:/Users/kibaa/Desktop/mushroom/6adbb48194e3d5ac93a67c299c9b6898.jpg\" public/images/mushrooms/product-pink-oyster.jpg)",
+      "Bash(cp \"C:/Users/kibaa/Desktop/mushroom/1b40ab12a0dfd20b9d7e8dab02ea0d15.jpg\" public/images/mushrooms/product-lions-mane.jpg)",
+      "Bash(cp \"C:/Users/kibaa/Desktop/mushroom/c4e8667a5e70931590271111ee22d94f.jpg\" public/images/mushrooms/product-blue-oyster.jpg)",
+      "Bash(npm run:*)",
+      "Bash(rm -rf src/components src/context src/hooks src/utils src/App.jsx src/App.css src/main.jsx src/index.css src/assets)",
+      "Bash(mkdir -p src/components/layout src/components/hero src/components/shop src/components/sections src/components/ui src/hooks src/lib src/styles)",
+      "Bash(timeout 6 npx vite --port 5173)",
+      "Bash(rm -rf src/)",
+      "Bash(mkdir -p src/components src/context src/utils src/hooks)",
+      "Bash(rm -f tsconfig.json vite-env.d.ts vercel.json)",
+      "Bash(taskkill //F //IM node.exe)",
+      "Bash(rm -rf src/ dist/)",
+      "Bash(mkdir -p src/components/layout src/components/hero src/components/shop src/components/sections src/components/ui src/hooks src/lib src/styles public/images/mushrooms/hero public/images/mushrooms/products)",
+      "Bash(cp \"C:/Users/kibaa/Desktop/MouseWithoutBorders/mushroom group/mushroom group/2.png\" public/images/mushrooms/hero/oyster.png)",
+      "Bash(cp \"C:/Users/kibaa/Desktop/MouseWithoutBorders/mushroom group/mushroom group/1.png\" public/images/mushrooms/hero/button.png)",
+      "Bash(cp \"C:/Users/kibaa/Desktop/MouseWithoutBorders/mushroom group/mushroom group/6.png\" public/images/mushrooms/hero-bg.png)",
+      "Bash(rm -rf public/images/mushrooms/hero/)",
+      "Bash(cp \"C:/Users/kibaa/Desktop/mushroom/815e5edc951d3e308a5e283a28869a8a.jpg\" public/images/mushrooms/product-king-oyster.jpg)",
+      "Bash(cp \"C:/Users/kibaa/Desktop/mushroom/f86fadefdddb243225a46079c1c85084.jpg\" public/images/mushrooms/product-golden-oyster.jpg)",
+      "Bash(cp \"C:/Users/kibaa/Desktop/mushroom/c4e8667a5e70931590271111ee22d94f.jpg\" public/images/mushrooms/product-shiitake.jpg)",
+      "Bash(gh repo:*)",
+      "Bash(mkdir -p public/images/mushrooms/hero public/images/backgrounds)",
+      "Bash(cp \"C:/Users/kibaa/Desktop/MouseWithoutBorders/mushroom group/mushroom group/3.png\" public/images/mushrooms/hero/bunapi.png)",
+      "Bash(cp \"C:/Users/kibaa/Desktop/MouseWithoutBorders/mushroom group/mushroom group/4.png\" public/images/mushrooms/hero/shiitake1.png)",
+      "Bash(cp \"C:/Users/kibaa/Desktop/MouseWithoutBorders/mushroom group/mushroom group/5.png\" public/images/mushrooms/hero/shiitake2.png)",
+      "Bash(cp \"C:/Users/kibaa/Desktop/MouseWithoutBorders/mushroom group/mushroom group/7.png\" public/images/mushrooms/hero/king-oyster1.png)",
+      "Bash(grep -rn '\\\\$15\\\\|\\\\$[0-9]' src/ --include=\"*.tsx\" --include=\"*.ts\")"
+    ]
+  }
+}

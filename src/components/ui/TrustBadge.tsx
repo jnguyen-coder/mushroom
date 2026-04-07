@@ -5,9 +5,9 @@ interface TrustBadgeProps {
 
 export default function TrustBadge({ icon, label }: TrustBadgeProps) {
   return (
-    <div className="flex flex-col items-center gap-2">
-      <div className="text-warm-gray">{icon}</div>
-      <span className="text-[10px] uppercase tracking-[0.12em] text-warm-gray text-center leading-tight">
+    <div className="flex flex-col items-center gap-1 md:gap-2 shrink-0">
+      <div className="text-warm-gray scale-75 md:scale-100">{icon}</div>
+      <span className="text-[8px] md:text-[10px] uppercase tracking-[0.08em] md:tracking-[0.12em] text-warm-gray text-center leading-tight max-w-[50px] md:max-w-none">
         {label}
       </span>
     </div>

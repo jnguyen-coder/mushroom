@@ -20,18 +20,7 @@ const badges = [
 export default function Footer() {
   return (
     <footer className="bg-[#2C2824]">
-      {/* ── Zone 1: Trust Badges ── */}
-      <div className="border-b border-[#8B7D6B]/20">
-        <div className="max-w-6xl mx-auto px-6 py-10">
-          <div className="grid grid-cols-3 md:grid-cols-6 gap-8 md:gap-6 justify-items-center">
-            {badges.map((b) => (
-              <TrustBadge key={b.label} icon={b.icon} label={b.label} />
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* ── Zone 2: Main Content ── */}
+      {/* ── Zone 1: Main Content ── */}
       <div className="max-w-6xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
           {/* Column 1: Brand */}
@@ -110,6 +99,17 @@ export default function Footer() {
                 <TikTokSVG />
               </SocialIcon>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Zone 2: Trust Badges — single row ── */}
+      <div className="border-t border-[#8B7D6B]/20">
+        <div className="max-w-6xl mx-auto px-4 md:px-6 py-8">
+          <div className="flex items-center justify-between gap-2 md:gap-6">
+            {badges.map((b) => (
+              <TrustBadge key={b.label} icon={b.icon} label={b.label} />
+            ))}
           </div>
         </div>
       </div>
