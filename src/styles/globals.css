@@ -22,11 +22,9 @@
 html {
   scroll-behavior: smooth;
   background-color: var(--color-white);
-  overflow-x: clip;
 }
 
-html, body, #root {
-  overscroll-behavior: none;
+html, body {
   overscroll-behavior-y: none;
 }
 
