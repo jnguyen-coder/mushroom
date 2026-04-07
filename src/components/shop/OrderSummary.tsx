@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useOrder } from '../../hooks/useOrder';
+import MushroomSpawnButton from '../ui/MushroomSpawnButton';
 
 export default function OrderSummary() {
   const {
@@ -53,9 +54,10 @@ export default function OrderSummary() {
                 <motion.div
                   key={item.id}
                   layout
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
                   className="flex items-center justify-between"
                 >
                   <div className="flex-1 min-w-0">
@@ -112,13 +114,15 @@ export default function OrderSummary() {
                 Edit Order
               </button>
             ) : (
-              <button
-                onClick={goToCheckout}
-                disabled={isEmpty}
-                className="w-full bg-text-primary text-white rounded-xl py-3 text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                Proceed to Checkout
-              </button>
+              <MushroomSpawnButton>
+                <button
+                  onClick={goToCheckout}
+                  disabled={isEmpty}
+                  className="w-full bg-text-primary text-white rounded-full py-3 px-8 text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                >
+                  Checkout
+                </button>
+              </MushroomSpawnButton>
             )}
           </div>
         </>

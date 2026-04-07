@@ -88,7 +88,7 @@ function orderReducer(state: OrderState, action: OrderAction): OrderState {
           [action.id]: {
             id: action.id,
             name: action.name,
-            quantity: (existing?.quantity ?? 0) + 1,
+            quantity: (existing?.quantity ?? 0) + 0.25,
             price: action.price,
           },
         },
@@ -105,14 +105,14 @@ function orderReducer(state: OrderState, action: OrderAction): OrderState {
         ...state,
         cart: {
           ...state.cart,
-          [action.id]: { ...item, quantity: item.quantity + 1 },
+          [action.id]: { ...item, quantity: item.quantity + 0.25 },
         },
       };
     }
     case 'DECREMENT_ITEM': {
       const item = state.cart[action.id];
       if (!item) return state;
-      if (item.quantity <= 1) {
+      if (item.quantity <= 0.25) {
         const { [action.id]: _, ...rest } = state.cart;
         return { ...state, cart: rest };
       }
@@ -120,7 +120,7 @@ function orderReducer(state: OrderState, action: OrderAction): OrderState {
         ...state,
         cart: {
           ...state.cart,
-          [action.id]: { ...item, quantity: item.quantity - 1 },
+          [action.id]: { ...item, quantity: item.quantity - 0.25 },
         },
       };
     }

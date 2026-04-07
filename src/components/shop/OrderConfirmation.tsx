@@ -4,7 +4,7 @@ import { useOrder } from '../../hooks/useOrder';
 export default function OrderConfirmation() {
   const { customer, orderId, paymentMethod, resetOrder } = useOrder();
 
-  const etransferEmail = import.meta.env.VITE_ETRANSFER_EMAIL || 'payments@example.com';
+  const etransferEmail = import.meta.env.VITE_ETRANSFER_EMAIL || 'pay@asahimushroom.com';
 
   return (
     <div className="flex flex-col items-center text-center py-8">
@@ -72,7 +72,7 @@ export default function OrderConfirmation() {
       {/* Place another order */}
       <button
         onClick={resetOrder}
-        className="mt-8 bg-text-primary text-white rounded-xl px-8 py-3 text-sm font-semibold hover:opacity-90 transition-opacity"
+        className="mt-8 bg-text-primary text-white rounded-full px-8 py-3 text-sm font-semibold hover:opacity-90 transition-opacity cursor-pointer"
       >
         Place Another Order
       </button>

@@ -8,6 +8,7 @@ import PickupDelivery from './components/sections/PickupDelivery'
 import About from './components/sections/About'
 import FAQ from './components/sections/FAQ'
 import FinalCTA from './components/sections/FinalCTA'
+import ClickBurst from './components/ui/ClickBurst'
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
       </main>
       <Footer />
       <MobileOrderBar />
+      <ClickBurst />
     </div>
   )
 }

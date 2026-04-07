@@ -22,7 +22,7 @@ export default function ProductCard({
 
   return (
     <div
-      className={`flex items-center p-3 md:p-4 rounded-xl border transition-all ${
+      className={`flex items-center p-3 md:p-4 rounded-xl border transition-all card-hover ${
         hasItems
           ? 'border-accent/20 bg-ivory/50'
           : 'border-bone/60 bg-white'

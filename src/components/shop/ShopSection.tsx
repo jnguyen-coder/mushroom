@@ -7,10 +7,22 @@ import OrderSummary from './OrderSummary';
 const CheckoutForm = lazy(() => import('./CheckoutForm'));
 const OrderConfirmation = lazy(() => import('./OrderConfirmation'));
 
-const pageVariants = {
+const enterRight = {
+  initial: { opacity: 0, x: 30 },
+  animate: { opacity: 1, x: 0, transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1], delay: 0.15 } },
+  exit: { opacity: 0, x: -30, transition: { duration: 0.3 } },
+};
+
+const enterLeft = {
+  initial: { opacity: 0, x: -30 },
+  animate: { opacity: 1, x: 0, transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1], delay: 0.15 } },
+  exit: { opacity: 0, x: 30, transition: { duration: 0.3 } },
+};
+
+const fadeUp = {
   initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -20 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+  exit: { opacity: 0, y: -20, transition: { duration: 0.3 } },
 };
 
 export default function ShopSection() {
@@ -20,7 +32,7 @@ export default function ShopSection() {
     switch (checkoutStep) {
       case 'checkout':
         return (
-          <motion.div key="checkout" variants={pageVariants} initial="initial" animate="animate" exit="exit">
+          <motion.div key="checkout" variants={enterRight} initial="initial" animate="animate" exit="exit">
             <Suspense fallback={<div className="py-12 text-center text-text-tertiary">Loading...</div>}>
               <CheckoutForm />
             </Suspense>
@@ -28,7 +40,7 @@ export default function ShopSection() {
         );
       case 'confirmation':
         return (
-          <motion.div key="confirmation" variants={pageVariants} initial="initial" animate="animate" exit="exit">
+          <motion.div key="confirmation" variants={fadeUp} initial="initial" animate="animate" exit="exit">
             <Suspense fallback={<div className="py-12 text-center text-text-tertiary">Loading...</div>}>
               <OrderConfirmation />
             </Suspense>
@@ -36,7 +48,7 @@ export default function ShopSection() {
         );
       default:
         return (
-          <motion.div key="shopping" variants={pageVariants} initial="initial" animate="animate" exit="exit">
+          <motion.div key="shopping" variants={enterLeft} initial="initial" animate="animate" exit="exit">
             <ProductGrid />
           </motion.div>
         );

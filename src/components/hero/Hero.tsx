@@ -2,6 +2,7 @@
 
 import { useRef } from 'react';
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
+import MushroomSpawnButton from '../ui/MushroomSpawnButton';
 
 const containerVariants = {
   hidden: {},
@@ -22,35 +23,32 @@ const itemVariants = {
 const springConfig = { damping: 30, stiffness: 150, mass: 0.5 };
 
 export default function Hero() {
-  const ref = useRef<HTMLElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
-    target: ref,
+    target: heroRef,
     offset: ['start start', 'end start'],
   });
 
-  // Scroll parallax
+  // Scroll parallax on background
   const bgScrollY = useTransform(scrollYProgress, [0, 1], ['0%', '25%']);
   const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.08]);
+
+  // Text fades on scroll
   const textY = useTransform(scrollYProgress, [0, 0.6], ['0%', '-15%']);
   const textOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const scrollIndicatorOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
 
-  // Mouse parallax — raw motion values
+  // Mouse parallax
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-
-  // Smooth spring for the background (moves opposite to mouse, subtle)
   const bgMouseX = useSpring(mouseX, springConfig);
   const bgMouseY = useSpring(mouseY, springConfig);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    const rect = ref.current?.getBoundingClientRect();
+    const rect = heroRef.current?.getBoundingClientRect();
     if (!rect) return;
-
-    // Normalize -1 to 1 from center
     const nx = (e.clientX - rect.left) / rect.width - 0.5;
     const ny = (e.clientY - rect.top) / rect.height - 0.5;
-
-    // Background shifts opposite to cursor, max ~20px
     mouseX.set(nx * -20);
     mouseY.set(ny * -12);
   };
@@ -62,7 +60,7 @@ export default function Hero() {
 
   return (
     <section
-      ref={ref}
+      ref={heroRef}
       style={{ position: 'relative' }}
       className="relative min-h-screen overflow-hidden"
       onMouseMove={handleMouseMove}
@@ -70,13 +68,8 @@ export default function Hero() {
     >
       {/* Parallax background — scroll + mouse */}
       <motion.div
-        className="absolute inset-[-20px]"
-        style={{
-          y: bgScrollY,
-          scale: bgScale,
-          x: bgMouseX,
-          translateY: bgMouseY,
-        }}
+        className="absolute left-[-20px] right-[-20px] bottom-[-20px]"
+        style={{ y: bgScrollY, scale: bgScale, x: bgMouseX, translateY: bgMouseY, top: '-15%' }}
       >
         <img
           src="/images/mushrooms/hero-bg.png"
@@ -85,37 +78,37 @@ export default function Hero() {
         />
       </motion.div>
 
-      {/* Overlay */}
+      {/* Overlay for text readability */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#FEFDFB]/80 via-[#FEFDFB]/50 to-transparent" />
 
-      {/* Text content — scroll fade */}
+      {/* Text content — upper portion */}
       <motion.div
-        className="relative z-10 flex items-center justify-center min-h-screen"
+        className="relative z-10 flex items-start justify-center min-h-screen pt-[25vh] md:pt-[20vh]"
         style={{ y: textY, opacity: textOpacity }}
       >
         <motion.div
-          className="text-center px-6 max-w-2xl mx-auto -mt-24"
+          className="text-center px-6 max-w-2xl mx-auto"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
           <motion.p
             variants={itemVariants}
-            className="text-xs uppercase tracking-[0.2em] text-[#6B635B] mb-6"
+            className="text-xs uppercase tracking-[0.2em] text-text-tertiary mb-6"
           >
-            Premium Gourmet Mushrooms · Vancouver, BC
+            Premium Gourmet Mushrooms &middot; Vancouver, BC
           </motion.p>
 
           <motion.h1
             variants={itemVariants}
-            className="font-display text-[clamp(2rem,5vw,4rem)] font-semibold tracking-tight leading-[1.1] text-[#2C2824]"
+            className="font-display text-[clamp(1.75rem,5vw,4rem)] font-semibold tracking-tight leading-[1.1] text-text-primary"
           >
             Grown with Care, Delivered Fresh
           </motion.h1>
 
           <motion.p
             variants={itemVariants}
-            className="text-lg text-[#6B635B] mt-5 max-w-lg mx-auto leading-relaxed"
+            className="text-lg text-text-secondary mt-5 max-w-lg mx-auto leading-relaxed"
           >
             Small-batch cultivated mushrooms for restaurants, chefs, and home cooks.
           </motion.p>
@@ -124,20 +117,32 @@ export default function Hero() {
             variants={itemVariants}
             className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8"
           >
+            <MushroomSpawnButton>
+              <a
+                href="#shop"
+                className="bg-text-primary text-white rounded-full px-8 py-3.5 text-sm font-medium hover:bg-accent transition-colors"
+              >
+                Shop Mushrooms
+              </a>
+            </MushroomSpawnButton>
             <a
               href="#shop"
-              className="bg-[#2C2824] text-white rounded-full px-8 py-3.5 text-sm font-medium hover:bg-[#8B7D6B] transition-colors"
-            >
-              Shop Mushrooms
-            </a>
-            <a
-              href="#shop"
-              className="text-sm text-[#8B7D6B] hover:text-[#2C2824] transition-colors"
+              className="text-sm text-accent hover:text-text-primary transition-colors"
             >
               See Our Varieties &darr;
             </a>
           </motion.div>
         </motion.div>
+      </motion.div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 scroll-indicator"
+        style={{ opacity: scrollIndicatorOpacity }}
+      >
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M4 7L10 13L16 7" stroke="#9B9189" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
       </motion.div>
     </section>
   );

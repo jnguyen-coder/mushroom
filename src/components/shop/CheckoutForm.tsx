@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useOrder } from '../../hooks/useOrder';
 import { submitOrder } from '../../lib/order';
+import MushroomSpawnButton from '../ui/MushroomSpawnButton';
 
 interface FormErrors {
   name?: string;
@@ -52,10 +53,16 @@ export default function CheckoutForm() {
     return Object.keys(newErrors).length === 0;
   };
 
+  const submittingRef = useRef(false);
+  const [submitError, setSubmitError] = useState('');
+
   const handleSubmit = async () => {
     if (!validate()) return;
-
+    if (submittingRef.current) return; // Hard guard against double-submit
+    submittingRef.current = true;
     setLoading(true);
+    setSubmitError('');
+
     try {
       const payload = {
         customer,
@@ -69,19 +76,22 @@ export default function CheckoutForm() {
 
       const result = await submitOrder(payload);
       completeOrder(result.orderId);
-    } catch {
-      // Error handling could be expanded
+    } catch (err) {
+      setSubmitError(
+        err instanceof Error ? err.message : 'Something went wrong. Please try again.'
+      );
+      submittingRef.current = false;
     } finally {
       setLoading(false);
     }
   };
 
   const inputClass =
-    'w-full bg-white border border-bone rounded-xl px-4 py-3 text-sm focus:border-accent focus:outline-none transition-colors';
+    'w-full bg-white border border-bone rounded-xl px-4 py-3 text-base focus:border-accent focus:outline-none transition-colors';
   const labelClass = 'block text-sm font-medium text-text-primary mb-1.5';
   const errorClass = 'text-error text-xs mt-1';
 
-  const etransferEmail = import.meta.env.VITE_ETRANSFER_EMAIL || 'payments@example.com';
+  const etransferEmail = import.meta.env.VITE_ETRANSFER_EMAIL || 'pay@asahimushroom.com';
 
   return (
     <div>
@@ -152,7 +162,7 @@ export default function CheckoutForm() {
             <button
               key={option}
               onClick={() => setFulfillment(option)}
-              className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+              className={`flex-1 py-2.5 rounded-full text-sm font-medium transition-colors ${
                 fulfillment === option
                   ? 'bg-text-primary text-white'
                   : 'bg-cream text-text-primary hover:bg-bone'
@@ -242,7 +252,7 @@ export default function CheckoutForm() {
             <button
               key={option}
               onClick={() => setPaymentMethod(option)}
-              className={`flex-1 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+              className={`flex-1 py-2.5 rounded-full text-sm font-medium transition-colors ${
                 paymentMethod === option
                   ? 'bg-text-primary text-white'
                   : 'bg-cream text-text-primary hover:bg-bone'
@@ -284,14 +294,37 @@ export default function CheckoutForm() {
         />
       </div>
 
+      {/* Error banner */}
+      {submitError && (
+        <div className="rounded-xl border border-error/30 bg-error/5 px-4 py-3 text-sm text-error mb-4">
+          <p>{submitError}</p>
+          <button
+            onClick={() => { setSubmitError(''); submittingRef.current = false; }}
+            className="mt-1 text-xs underline hover:no-underline cursor-pointer"
+          >
+            Try again
+          </button>
+        </div>
+      )}
+
       {/* Submit */}
-      <button
-        onClick={handleSubmit}
-        disabled={loading}
-        className="w-full bg-text-primary text-white rounded-xl py-3.5 text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-60 disabled:cursor-not-allowed"
-      >
-        {loading ? 'Placing Order...' : 'Place Order'}
-      </button>
+      <MushroomSpawnButton>
+        <button
+          onClick={handleSubmit}
+          disabled={loading}
+          className="w-full bg-text-primary text-white rounded-full py-3 px-8 text-sm font-semibold hover:opacity-90 transition-opacity disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+        >
+          {loading ? (
+            <span className="flex items-center justify-center gap-2">
+              <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" opacity="0.3" />
+                <path d="M12 2a10 10 0 019.8 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+              Placing Order...
+            </span>
+          ) : 'Place Order'}
+        </button>
+      </MushroomSpawnButton>
     </div>
   );
 }
